@@ -1,48 +1,46 @@
 var questions = [
+
   {
-    question: "Commonly used data types DO NOT include:",
-    choices: ["strings", "booleans", "alerts", "numbers"],
-    answer: "alerts",
+    question: "What is the name of the main character in The Legend of Zelda game series?",
+    choices: ["Link", "Ganon", "Zelda", "Navi"],
+    answer: "Link",
   },
   {
-    question:
-      "The condition in an if / else statement is enclosed within ____.",
-    choices: ["quotes", "curly brackets", "parentheses", "square brackets"],
-    answer: "parentheses",
+    question: "What are the names of Magus's three evil Henchmen?",
+    choices: ["Inky, Blinky, and Clyde", "Ozzy, Flea, and Slash", "Wendy, Lemmy, and Ludwig", "Aquamentus, Dodongo, Manhandla"],
+    answer: "Ozzy, Flea, and Slash",
   },
   {
-    question: "Commonly used data types DO NOT include:",
-    choices: ["strings", "booleans", "alerts", "numbers"],
-    answer: "alerts",
+    question: "In what game did Super Mario first make his appearance?",
+    choices: ["Duck Hunt", "Super Mario Brothers", "PacMan", "Donkey Kong"],
+    answer: "Donkey Kong",
   },
   {
-    question:
-      "The condition in an if / else statement is enclosed within ____.",
-    choices: ["quotes", "curly brackets", "parentheses", "square brackets"],
-    answer: "parentheses",
+    question: "What's Cloud's favorite excercise?",
+    choices: ["bench presses", "squats", "push-ups", "pull-ups"],
+    answer: "squats",
   },
   {
-    question: "Commonly used data types DO NOT include:",
-    choices: ["strings", "booleans", "alerts", "numbers"],
-    answer: "alerts",
+    question: "The phrase 'All your base are belong to us' came from what game?",
+    choices: ["Missile Command", "Galaga", "Zero Wing", "Star Fox"],
+    answer: "Zero Wing",
   },
   {
-    question:
-      "The condition in an if / else statement is enclosed within ____.",
-    choices: ["quotes", "curly brackets", "parentheses", "square brackets"],
-    answer: "parentheses",
+    question: "What plagues the deep roads?",
+    choices: ["Deepstalkers", "Indignant Spirits", "Corrupted Spiders", "Darkspawn"],
+    answer: "Darkspawn",
   },
   {
-    question: "Commonly used data types DO NOT include:",
-    choices: ["strings", "booleans", "alerts", "numbers"],
-    answer: "alerts",
+    question: "I'm not a thief. I am a ____________.",
+    choices: ["borrower", "treasure hunter", "pirate", "conqueror"],
+    answer: "treasure hunter",
   },
   {
-    question:
-      "The condition in an if / else statement is enclosed within ____.",
-    choices: ["quotes", "curly brackets", "parentheses", "square brackets"],
-    answer: "parentheses",
+    question: "Which of the following is NOT a character in the Resident Evil game series?",
+    choices: ["Alice", "Jill", "Leon", "Chris"],
+    answer: "Alice",
   },
+
 ];
 
 var questionEl = document.querySelector("#question");
@@ -58,43 +56,45 @@ var intervalId;
 function endQuiz() {
   clearInterval(intervalId);
   var body = document.body;
-  body.innerHTML = "Game over, You scored " + correctCount;
+  body.innerHTML = "Game Over. You scored " + correctCount;
+  body.style.padding = "10px 10px 10px 10px";
+  body.style.fontSize = "2.5rem"
+  body.style.textAlign = "center"
 
-  // wait 2 seconds and call showHighScore;
-  setTimeout (showHighScore, 2000);
+  // wait 2 seconds and call saveHighScore;
+  setTimeout(saveHighScore, 2000);
+
+
+
+
 }
-
-function showHighScore() {
+// need to split this function into 2 funciton a save function and a print function
+function saveHighScore() {
   // write code here
-  var name = prompt ("Please enter your name.");
+  var name = prompt("Please enter your name.");
 
   var user = {
     name: name,
     score: correctCount
   }
-
   var high_scores = localStorage.getItem("scores");
-
+    
   if (!high_scores) {
     high_scores = [];
-  }else {
+  } else {
     high_scores = JSON.parse(high_scores);
   }
-  high_scores.push(user)
+  high_scores.push(user);
+  localStorage.setItem("scores", JSON.stringify(high_scores));
 
-  high_scores.sort(function(a, b){
-    return b.score-a.score
-  })
-var conentUL = document.createEleement("ul");
-
-   window.location.href = "highscores.html";
+  window.location.href = "highscores.html";
 }
 
 
 
 function updateTime() {
   time--;
-  timerEl.textContent = time;
+  timerEl.textContent = "Time Remaining: " + time;
   if (time <= 0) {
     endQuiz();
   }
@@ -105,7 +105,7 @@ function renderQuestion() {
     updateTime();
     return;
   }
-  
+
   intervalId = setInterval(updateTime, 1000);
   questionEl.textContent = questions[questionIndex].question;
 
@@ -135,16 +135,17 @@ function checkAnswer(event) {
   if (event.target.matches("li")) {
     var answer = event.target.textContent;
     if (answer === questions[questionIndex].answer) {
-      questionResultEl.textContent = "Correct";
+      //questionResultEl.textContent = "Correct";
       correctCount++;
     } else {
-      questionResultEl.textContent = "Incorrect";
+      //questionResultEl.textContent = "Incorrect";
       time = time - 2;
       timerEl.textContent = time;
     }
   }
-  setTimeout(nextQuestion, 2000);
+  setTimeout(nextQuestion, 0);
 }
 
 renderQuestion();
 optionListEl.addEventListener("click", checkAnswer);
+
