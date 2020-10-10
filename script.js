@@ -78,7 +78,7 @@ function saveHighScore() {
     score: correctCount
   }
   var high_scores = localStorage.getItem("scores");
-    
+
   if (!high_scores) {
     high_scores = [];
   } else {
@@ -89,8 +89,8 @@ function saveHighScore() {
 
   high_scores.sort(function (a, b) {
     return b.score - a.score;
-})
-
+  })
+  localStorage.setItem("scores", JSON.stringify(high_scores));
 
   window.location.href = "highscores.html";
 }
