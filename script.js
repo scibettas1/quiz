@@ -84,8 +84,13 @@ function saveHighScore() {
   } else {
     high_scores = JSON.parse(high_scores);
   }
+
   high_scores.push(user);
-  localStorage.setItem("scores", JSON.stringify(high_scores));
+
+  high_scores.sort(function (a, b) {
+    return b.score - a.score;
+})
+
 
   window.location.href = "highscores.html";
 }
