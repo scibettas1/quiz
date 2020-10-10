@@ -1,2 +1,2 @@
 # quiz
-a short quiz with a high score list
+a short video game trivia quiz, styled to look like an old arcade machine
